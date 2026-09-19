@@ -1,0 +1,9 @@
+{
+  "title": "Argentine Mate - Official Store",
+  "subtitle": "Wholesale and retail sale of raw or hand-painted mates, with customization options.",
+  "api_status": "Catalog connected from Django REST Framework",
+  "price": "Price",
+  "stock": "Available stock",
+  "loading": "Loading products...",
+  "no_products": "No products loaded yet."
+}
