@@ -1,0 +1,9 @@
+{
+  "title": "Mate Argentino - Tienda Oficial",
+  "subtitle": "Venta mayorista y minorista de mates crudos o pintados a mano, con opción de personalización.",
+  "api_status": "Catálogo conectado desde Django REST Framework",
+  "price": "Precio",
+  "stock": "Stock disponible",
+  "loading": "Cargando productos...",
+  "no_products": "No hay productos cargados todavía."
+}
