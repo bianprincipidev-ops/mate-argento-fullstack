@@ -6,6 +6,7 @@ function App() {
   const { t } = useTranslation();
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     obtenerProductos()
@@ -18,6 +19,48 @@ function App() {
         setLoading(false);
       });
   }, []);
+
+  // VISTA DEL DETALLE
+  if (selectedProduct) {
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#F5EFEB', padding: '2rem', fontFamily: 'sans-serif', color: '#2F4156' }}>
+        <button
+          onClick={() => setSelectedProduct(null)}
+          style={{ marginBottom: '1.5rem', backgroundColor: '#2F4156', color: '#FFFFFF', padding: '0.6rem 1.2rem', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
+        >
+          ← Volver al Catálogo
+        </button>
+
+        <div style={{ maxWidth: '900px', margin: '0 auto', backgroundColor: '#FFFFFF', padding: '2rem', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'row', gap: '2rem', border: '1px solid #C8D9E6' }}>
+          
+          <div style={{ width: '50%', backgroundColor: '#f9f9f9', minHeight: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px', border: '1px solid #eee' }}>
+            {selectedProduct.imagen ? (
+              <img src={selectedProduct.imagen} alt={selectedProduct.nombre} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
+            ) : (
+              <span style={{ color: '#888' }}>🧉 Sin imagen</span>
+            )}
+          </div>
+
+          <div style={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div>
+              <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#2F4156', marginBottom: '1rem' }}>{selectedProduct.nombre}</h1>
+              <p style={{ color: '#666', lineHeight: '1.5', marginBottom: '1.5rem' }}>{selectedProduct.descripcion}</p>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#567C8D', marginBottom: '0.5rem' }}>${selectedProduct.precio}</p>
+              <p style={{ fontSize: '0.9rem', color: '#888', marginBottom: '2rem' }}>Stock disponible: {selectedProduct.stock}</p>
+            </div>
+            
+            <button 
+              onClick={() => alert('¡Pronto sumaremos el carrito!')}
+              style={{ width: '100%', backgroundColor: '#2F4156', color: '#FFFFFF', padding: '0.8rem', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
+            >
+              Agregar al Carrito
+            </button>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
 
 return (
     <div style={{ minHeight: '100vh', width: '100vw', backgroundColor: '#F5EFEB', fontFamily: 'sans-serif', display: 'flex', flexDirection: 'column', color: '#2F4156', margin: 0, padding: 0, boxSizing: 'border-box', overflowX: 'hidden' }}>
@@ -117,7 +160,10 @@ return (
                   <div>
                     <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#567C8D', marginBottom: '0.3rem' }}>{t('price')}: ${producto.precio}</p>
                     <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: '0.8rem' }}>{t('stock')}: {producto.stock}</p>
-                    <button style={{ width: '100%', backgroundColor: '#2F4156', color: '#FFFFFF', border: 'none', padding: '0.6rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'background 0.2s' }}>
+                    <button 
+                      onClick={() => setSelectedProduct(producto)}
+                      className="bg-[#2F4156] text-white py-2 px-4 rounded hover:bg-[#1f2b38] transition"
+                    >
                       Ver Producto
                     </button>
                   </div>
