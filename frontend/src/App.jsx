@@ -7,6 +7,26 @@ function App() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+  const productosFiltrados = categoriaSeleccionada
+    ? productos.filter(p => {
+        if (!p.categoria_nombre) return false;
+        const catNombre = p.categoria_nombre.toLowerCase();
+        
+        // Comparamos según lo que elegiste en el sidebar
+        if (categoriaSeleccionada.includes('Mates Pintados')) {
+          return catNombre.includes('pintado');
+        }
+        if (categoriaSeleccionada.includes('Mates Crudos')) {
+          return catNombre.includes('crudo');
+        }
+        if (categoriaSeleccionada.includes('Madera')) {
+          return catNombre.includes('madera');
+        }
+        
+        return true;
+      })
+    : productos;
 
   useEffect(() => {
     obtenerProductos()
@@ -110,36 +130,70 @@ return (
             Navegación
           </h3>
           
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <li>
-              <a href="#" style={{ textDecoration: 'none', color: '#2F4156', fontWeight: '600', display: 'block', padding: '0.4rem 0' }}>
+              <button 
+                onClick={() => setCategoriaSeleccionada(null)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', color: '#2F4156', fontWeight: '600', display: 'block', padding: '0.4rem 0', width: '100%', fontSize: '0.95rem' }}
+              >
                 📦 Todos los Productos
-              </a>
+              </button>
             </li>
             
-            <li style={{ marginTop: '0.5rem' }}>
-              <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#567C8D', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Categorías
+            {/* 1. POR MAYOR */}
+            <li>
+              <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#567C8D', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '0.4rem' }}>
+                Venta por Mayor
               </span>
-              
-              <div style={{ paddingLeft: '1rem', marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', borderLeft: '2px solid #C8D9E6' }}>
-                <div>
-                  <span style={{ fontSize: '0.95rem', fontWeight: '600', color: '#2F4156' }}>Mates Pintados</span>
-                  <div style={{ paddingLeft: '0.8rem', marginTop: '0.3rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                    <a href="#" style={{ textDecoration: 'none', fontSize: '0.85rem', color: '#666' }}>• Por menor</a>
-                    <a href="#" style={{ textDecoration: 'none', fontSize: '0.85rem', color: '#666' }}>• Por mayor</a>
-                  </div>
-                </div>
-
-                <div style={{ marginTop: '0.3rem' }}>
-                  <span style={{ fontSize: '0.95rem', fontWeight: '600', color: '#2F4156' }}>Mates Crudos</span>
-                  <div style={{ paddingLeft: '0.8rem', marginTop: '0.3rem', display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                    <a href="#" style={{ textDecoration: 'none', fontSize: '0.85rem', color: '#666' }}>• Por menor</a>
-                    <a href="#" style={{ textDecoration: 'none', fontSize: '0.85rem', color: '#666' }}>• Por mayor</a>
-                  </div>
-                </div>
+              <div style={{ paddingLeft: '0.8rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #C8D9E6' }}>
+                <button 
+                  onClick={() => setCategoriaSeleccionada('Mayor - Mates Pintados')} 
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: '0.85rem', color: '#666', padding: '0.2rem 0' }}
+                >
+                  • Mates Pintados
+                </button>
+                <button 
+                  onClick={() => setCategoriaSeleccionada('Mayor - Mates Crudos')} 
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: '0.85rem', color: '#666', padding: '0.2rem 0' }}
+                >
+                  • Mates Crudos
+                </button>
+                <button 
+                  onClick={() => setCategoriaSeleccionada('Mayor - Madera')} 
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: '0.85rem', color: '#666', padding: '0.2rem 0' }}
+                >
+                  • Artículos de Madera
+                </button>
               </div>
             </li>
+
+            {/* 2. POR MENOR */}
+            <li style={{ marginTop: '0.5rem' }}>
+              <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#567C8D', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '0.4rem' }}>
+                Venta por Menor
+              </span>
+              <div style={{ paddingLeft: '0.8rem', display: 'flex', flexDirection: 'column', gap: '0.4rem', borderLeft: '2px solid #C8D9E6' }}>
+                <button 
+                  onClick={() => setCategoriaSeleccionada('Menor - Mates Pintados')} 
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: '0.85rem', color: '#666', padding: '0.2rem 0' }}
+                >
+                  • Mates Pintados
+                </button>
+                <button 
+                  onClick={() => setCategoriaSeleccionada('Menor - Mates Crudos')} 
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: '0.85rem', color: '#666', padding: '0.2rem 0' }}
+                >
+                  • Mates Crudos
+                </button>
+                <button 
+                  onClick={() => setCategoriaSeleccionada('Menor - Madera')} 
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: '0.85rem', color: '#666', padding: '0.2rem 0' }}
+                >
+                  • Artículos de Madera
+                </button>
+              </div>
+            </li>
+
           </ul>
         </aside>
 
@@ -147,11 +201,11 @@ return (
         <main style={{ flex: 1 }}>
           {loading ? (
             <p style={{ color: '#567C8D' }}>{t('loading')}</p>
-          ) : productos.length === 0 ? (
+          ) : productosFiltrados.length === 0 ? (
             <p style={{ color: '#567C8D' }}>{t('no_products')}</p>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '1.25rem' }}>
-              {productos.map((producto) => (
+              {productosFiltrados.map((producto) => (
                 <div key={producto.id} style={{ backgroundColor: '#FFFFFF', border: '1px solid #C8D9E6', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 4px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', aspectRatio: '1 / 1.1' }}>
                   <div>
                     <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#2F4156', marginBottom: '0.4rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{producto.nombre}</h3>
